@@ -49,13 +49,15 @@ lazy val root = Project(
 
 // sub projects
 
-val subProjectName = "subProject"
-lazy val subProject = Project(
-  id = subProjectName,
-  base = file(s"./${subProjectName}"),
-  settings = CommonSettings ++ Seq(
-    name := subProjectName,
-    libraryDependencies ++= CommonDependencies
+lazy val subProject = {
+  val subProjectName = "subProject"
+  Project(
+    id = subProjectName,
+    base = file(s"./${subProjectName}"),
+    settings = CommonSettings ++ Seq(
+      name := subProjectName,
+      libraryDependencies ++= CommonDependencies
+    )
   )
-)
+}
 
