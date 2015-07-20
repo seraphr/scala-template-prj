@@ -1,7 +1,7 @@
 import scalariform.formatter.preferences._
 
 val Organization = "jp.seraphr"
-val ScalaVersion = "2.11.5"
+val ScalaVersion = "2.11.6"
 val Version = "0.1.0-SNAPSHOT"
 
 val RiformSettings = scalariformSettings ++ (
@@ -11,8 +11,8 @@ val RiformSettings = scalariformSettings ++ (
     .setPreference(DoubleIndentClassDeclaration, false))
 
 val CommonDependencies = Seq(
-  "org.scalatest" %% "scalatest" % "2.2.0" % "test",
-  "org.scalacheck" %% "scalacheck" % "1.11.5" % "test"
+  "org.scalatest" %% "scalatest" % "2.2.5" % "test",
+  "org.scalacheck" %% "scalacheck" % "1.12.1" % "test"
 )
 
 val CommonSettings = Seq(
