@@ -1,18 +1,20 @@
 import scalariform.formatter.preferences._
+import com.typesafe.sbt.SbtScalariform
+import com.typesafe.sbt.SbtScalariform.ScalariformKeys
 
 val Organization = "jp.seraphr"
-val ScalaVersion = "2.11.6"
+val ScalaVersion = "2.11.7"
 val Version = "0.1.0-SNAPSHOT"
 
-val RiformSettings = scalariformSettings ++ (
-  ScalariformKeys.preferences := (ScalariformKeys.preferences.value
+val RiformSettings = SbtScalariform.scalariformSettings ++ Seq(
+  ScalariformKeys.preferences := ScalariformKeys.preferences.value
     .setPreference(AlignSingleLineCaseStatements, true)
-    .setPreference(AlignSingleLineCaseStatements.MaxArrowIndent, 60))
+    .setPreference(AlignSingleLineCaseStatements.MaxArrowIndent, 60)
     .setPreference(DoubleIndentClassDeclaration, false))
 
 val CommonDependencies = Seq(
-  "org.scalatest" %% "scalatest" % "2.2.5" % "test",
-  "org.scalacheck" %% "scalacheck" % "1.12.1" % "test"
+  "org.scalatest" %% "scalatest" % "2.2.6" % "test",
+  "org.scalacheck" %% "scalacheck" % "1.12.5" % "test"
 )
 
 val CommonSettings = Seq(
