@@ -1,65 +1,45 @@
-import scalariform.formatter.preferences._
-import com.typesafe.sbt.SbtScalariform
-import com.typesafe.sbt.SbtScalariform.ScalariformKeys
-
 val Organization = "jp.seraphr"
-val ScalaVersion = "2.11.7"
-val Version = "0.1.0-SNAPSHOT"
+val fatalWarning = settingKey[Boolean]("")
 
-val RiformSettings = SbtScalariform.scalariformSettings ++ Seq(
-  ScalariformKeys.preferences := ScalariformKeys.preferences.value
-    .setPreference(AlignSingleLineCaseStatements, true)
-    .setPreference(AlignSingleLineCaseStatements.MaxArrowIndent, 60)
-    .setPreference(DoubleIndentClassDeclaration, false))
+ThisBuild / fatalWarning      := false
+Global / onChangedBuildSource := ReloadOnSourceChanges
 
 val CommonDependencies = Seq(
-  "org.scalatest" %% "scalatest" % "2.2.6" % "test",
-  "org.scalacheck" %% "scalacheck" % "1.12.5" % "test"
+  Dependencies.jvm.scalatest  % "test",
+  Dependencies.jvm.scalacheck % "test"
 )
 
 val CommonSettings = Seq(
-  incOptions := incOptions.value.withNameHashing(true),
-  updateOptions := updateOptions.value.withCachedResolution(true),
   organization := Organization,
-  scalaVersion := ScalaVersion,
-  version := Version,
-  testOptions in Test := Seq(
-    Tests.Argument("-oS", "-u", "target/junit"),
+  Test / testOptions := Seq(
+    Tests.Argument("-oS"),
     Tests.Argument("-l", "org.scalatest.tags.Slow")
   ),
-  scalacOptions in (Compile, doc) ++= Seq("-groups", "-implicits", "-diagrams"),
-  scalacOptions ++= Seq("-encoding", "UTF-8", "-feature", "-deprecation", "-Xlint"),
-  javacOptions ++= Seq("-encoding", "UTF-8")
-) ++ RiformSettings
+  Compile / doc / scalacOptions ++= Seq("-groups", "-implicits", "-diagrams"),
+  scalacOptions ++= {
+    val tBase = Seq(
+      "-encoding",
+      "UTF-8",
+      "-feature",
+      "-deprecation",
+      "-unchecked",
+      "-Xlint:_,-missing-interpolator",
+      "-Ywarn-dead-code",
+      "-Ywarn-unused:patvars"
+    )
 
-// root project
-lazy val root = Project(
-  id = "root",
-  base = file("."),
-  settings = CommonSettings ++ Seq(
-    TaskKey[Unit]("checkScalariform") := {
-      val diff = "git diff".!!
-      if(diff.nonEmpty){
-        sys.error("Working directory is dirty!\n" + diff)
-      }
-    },
-    publish := { }
-  )
-) aggregate (
-  subProject
+    val tFatalWarning = if (fatalWarning.value) Seq("-Xfatal-warnings") else Seq()
+    tBase ++ tFatalWarning
+  },
+  javacOptions ++= Seq("-encoding", "UTF-8")
 )
 
 // sub projects
 
 lazy val subProject = {
-  val subProjectName = "subProject"
-  Project(
-    id = subProjectName,
-    base = file(s"./${subProjectName}"),
-    settings = CommonSettings ++ Seq(
-      name := subProjectName,
+  (project in file("subproject"))
+    .settings(CommonSettings)
+    .settings(
       libraryDependencies ++= CommonDependencies
     )
-  )
 }
-
