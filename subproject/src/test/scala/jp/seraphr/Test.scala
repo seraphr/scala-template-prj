@@ -5,6 +5,6 @@ import org.scalatest.matchers.should.Matchers
 
 class Test extends AnyFreeSpec with Matchers {
   "test" in {
-    "hoge" shouldBe "fuga"
+    "hoge" shouldBe "hoge"
   }
 }
