@@ -6,6 +6,6 @@ object Dependencies {
 
   object jvm {
     val scalatest  = "org.scalatest"     %% "scalatest"       % scalatestVersion
-    val scalacheck = "org.scalatestplus" %% "scalacheck-1-15" % scalatestplusVersion
+    val scalacheck = "org.scalatestplus" %% "scalacheck-1-16" % scalatestplusVersion
   }
 }
