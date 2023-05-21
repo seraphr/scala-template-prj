@@ -1,7 +1,7 @@
 import sbt._
 
 object Dependencies {
-  val scalatestVersion     = "3.2.15"
+  val scalatestVersion     = "3.2.16"
   val scalatestplusVersion = s"${scalatestVersion}.0"
 
   object jvm {
