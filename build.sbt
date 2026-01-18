@@ -10,7 +10,7 @@ val CommonDependencies = Seq(
 )
 
 val CommonSettings = Seq(
-  organization := Organization,
+  organization       := Organization,
   Test / testOptions := Seq(
     Tests.Argument("-oS"),
     Tests.Argument("-l", "org.scalatest.tags.Slow")
